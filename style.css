@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+body{
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Roboto', sans-serif;
+}
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  background-color: silver;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.text {
+  width: 750px;
+  height: 250px;
+  margin: 40px auto;
+  border: 0;
+  border-radius: 5px;
+  resize: none;
+}
+.keyboard {
+  width: 750px;
+  height: 240px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.key {
+  width: 40px;
+  height: 40px;
+  background-color: #2e2e2e;
+  color: white;
+  box-shadow: 2px 2px 5px 0px rgba(255,255,255,1);
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.key:hover{
+  background-color: #dbc41f;
+  cursor: pointer;
+}
+.key span:hover{
+  cursor: pointer;
+}
+/* .special-key {
+  background-color: brown;
+} */
+.back, .caps, .shiftL {
+  width: 100px;
+}
+.tab, .del {
+  width: 50px;
+}
+.enter, .shiftR {
+  width: 90px;
+}
+.space {
+  width: 330px;
+}
+.pressed {
+  background-color: #dbc41f;
+  color: #2e2e2e;
+  box-shadow: none;
+}
