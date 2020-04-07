@@ -1,4 +1,4 @@
-const settings = { lang: 'ru', caps: 'off' };
+const settings = JSON.parse(localStorage.getItem('keyboardData')) ? JSON.parse(localStorage.getItem('keyboardData')) : { lang: 'ru', caps: 'off' };
 
 function createBoard(container, lang, reg) {
   if (container.querySelector('.keyboard')) {
@@ -17,6 +17,7 @@ function createBoard(container, lang, reg) {
   const rows = board.querySelectorAll('.row');
 
   keys.forEach(element => {
+    console.log(element);
     const keyElement = document.createElement('div');
     keyElement.className = element.class;
     const keyText = document.createElement('span');
