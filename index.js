@@ -375,3 +375,82 @@ function createInitialBoard(lang, reg) {
 }
 
 createInitialBoard(settings.lang, settings.caps);
+
+const textField = document.querySelector('.text');
+
+document.addEventListener('keydown', (e) => {
+  const keyboard = document.querySelector('.keyboard');
+
+  const row = keyboard.querySelectorAll('.row')[keys[e.code].row];
+  const key = row.querySelectorAll('.key')[keys[e.code].item];
+  key.classList.add('pressed');
+
+  if (e.altKey && e.shiftKey) {
+    settings.lang = settings.lang === 'ru' ? 'eng' : 'ru';
+    localStorage.setItem('keyboardData', JSON.stringify({
+      lang: settings.lang,
+      caps: settings.caps,
+    }));
+    createBoard(document.querySelector('.wrapper'), settings.lang, settings.caps);
+  } else if (e.code === 'CapsLock') {
+    settings.caps = settings.caps === 'on' ? 'off' : 'on';
+    localStorage.setItem('keyboardData', JSON.stringify({
+      lang: settings.lang,
+      caps: settings.caps,
+    }));
+    if (settings.caps === 'on') {
+      createBoard(document.querySelector('.wrapper'), settings.lang, settings.caps);
+      document.querySelector('.caps').classList.add('pressed');
+    } else {
+      createBoard(document.querySelector('.wrapper'), settings.lang, settings.caps);
+    }
+  } else if (e.altKey) {
+    e.preventDefault();
+  } else if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+    settings.caps = settings.caps === 'on' ? 'off' : 'on';
+    createBoard(document.querySelector('.wrapper'), settings.lang, settings.caps);
+    const keyboardShift = document.querySelector('.keyboard');
+    const rowShift = keyboardShift.querySelectorAll('.row')[keys[e.code].row];
+    const keyShift = rowShift.querySelectorAll('.key')[keys[e.code].item];
+    keyShift.classList.add('pressed');
+  } else if (e.code === 'Enter') {
+    textField.innerHTML += '\n';
+  } else if (e.code === 'Tab') {
+    e.preventDefault();
+    textField.innerHTML += '\t';
+  } else if (e.code === 'Backspace' || e.code === 'Delete') {
+    textField.innerHTML = textField.innerHTML.slice(0, textField.innerHTML.length - 1);
+  } else if (e.code !== 'Tab' && e.code !== 'ShiftLeft' && e.code !== 'ControlLeft' && e.code !== 'MetaLeft' && e.code !== 'AltLeft' && e.code !== 'ControlRight' && e.code !== 'ShiftRight' && e.code !== 'AltRight' && e.code !== 'ArrowLeft' && e.code !== 'ArrowRight' && e.code !== 'ArrowUp' && e.code !== 'ArrowDown') {
+    textField.innerHTML += keys[e.code][settings.lang][settings.caps];
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  const keyboard = document.querySelector('.keyboard');
+
+  if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+    settings.caps = settings.caps === 'on' ? 'off' : 'on';
+    createBoard(document.querySelector('.wrapper'), settings.lang, settings.caps);
+  } else if (e.code !== 'CapsLock') {
+    const row = keyboard.querySelectorAll('.row')[keys[e.code].row];
+    const key = row.querySelectorAll('.key')[keys[e.code].item];
+    key.classList.remove('pressed');
+  }
+});
+
+document.addEventListener('click', (e) => {
+  function press(key) {
+    key.classList.add('pressed');
+    setTimeout(() => {
+      key.classList.remove('pressed');
+    }, 50);
+    textField.innerHTML += key.querySelector('span').innerHTML;
+  }
+  if (e.target.classList[0] === 'key') {
+    const key = e.target;
+    press(key);
+  } else if (e.target.tagName === 'SPAN') {
+    const key = e.target.parentElement;
+    press(key);
+  }
+});
